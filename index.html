@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Little Canvas for Vedika</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- NEW: Replaced Caveat with Dancing Script for a more elegant cursive -->
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Inter:wght@400;500;700&family=Parisienne&display=swap" rel="stylesheet">
+    
+    <style>
+        /* NEW: Updated font class */
+        .font-cursive-header { font-family: 'Dancing Script', cursive; }
+        .font-inter { font-family: 'Inter', sans-serif; }
+        .font-parisienne { font-family: 'Parisienne', cursive; }
+
+        /* Animated Gradient Background */
+        @keyframes gradient-animation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Subtle Noise/Static Texture (Kept) */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.1;
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1MDAiIGhlaWdodD0iNTAwIj4NCiAgICA8ZmlsdGVyIGlkPSJub2lzZSI+DQogICAgICAgIDxmZVR1cmJ1bGVuY2UgdHlwZT0iZnJhY3RhbE5vaXNlIiBiYXNlRnJlcXVlbmN5PSIwLjciIG51bU9jdGF2ZXM9IjUiIHN0aXRjaFRpbGVzPSJzdGl0Y2giLz4NCiAgICA8L2ZpbHRlcj4NCiAgICA8cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWx0ZXI9InVybCgjbm9pc2UpIi8+DQo8L3N2Zz4=');
+        }
+
+        /* NEW: "Proper" Color Palette - soft, romantic pinks and ivory */
+        body {
+            background: linear-gradient(-45deg, #fff1f2, #fdf2f8, #fce7f3, #fbe2e3);
+            background-size: 400% 400%;
+            animation: gradient-animation 15s ease infinite;
+            min-height: 100vh;
+            overflow-x: hidden;
+            padding: 1rem;
+            font-family: 'Inter', sans-serif;
+            color: #334155; /* Slate-700 */
+        }
+        
+        /* Scroll-Reveal Animations (Kept) */
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 1s cubic-bezier(0.25, 0.8, 0.25, 1), transform 1s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        .scroll-reveal.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .scroll-reveal-left {
+            opacity: 0;
+            transform: translateX(-30px);
+            transition: opacity 1s cubic-bezier(0.25, 0.8, 0.25, 1), transform 1s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        .scroll-reveal-left.is-visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        .scroll-reveal-right {
+            opacity: 0;
+            transform: translateX(30px);
+            transition: opacity 1s cubic-bezier(0.25, 0.8, 0.25, 1), transform 1s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        .scroll-reveal-right.is-visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        /* NEW: Enhanced "Glass" Effect */
+        .canvas-item {
+            background-color: rgba(255, 255, 255, 0.65); /* More transparent */
+            backdrop-filter: blur(20px); /* Glassier */
+            border: 1px solid rgba(255, 255, 255, 0.75); /* Brighter edge */
+            border-radius: 0.75rem;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.08);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            overflow: hidden; 
+        }
+
+        /* NEW: Enhanced "Hover" Effect with Pink Glow */
+        .canvas-item:hover {
+            transform: scale(1.03) !important;
+            /* Softer shadow + more prominent pink glow */
+            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.1), 0 0 30px 5px rgba(252, 165, 165, 0.5);
+            z-index: 10;
+            border-color: rgba(255, 255, 255, 1.0); /* Crisp white edge on hover */
+        }
+        
+        /* Image Zoom on Hover (Kept) */
+        .canvas-item img {
+            transition: transform 0.4s ease-out;
+        }
+        .canvas-item:hover img {
+            transform: scale(1.05);
+        }
+
+        .underline-on-hover {
+            display: inline-block;
+            position: relative;
+            cursor: pointer;
+        }
+        .underline-on-hover::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            transform: scaleX(0);
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: #fca5a5;
+            transform-origin: bottom right;
+            transition: transform 0.25s ease-out;
+        }
+        .underline-on-hover:hover::after {
+            transform: scaleX(1);
+            transform-origin: bottom left;
+        }
+
+        /* Pulsing Icon Animation (Kept) */
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.1); opacity: 1; }
+        }
+        .thought-bubble-icon {
+            cursor: pointer;
+            transition: transform 0.2s ease-in-out;
+            animation: pulse 2.5s infinite ease-in-out;
+        }
+        .thought-bubble-icon:hover {
+            transform: scale(1.1) !important;
+            animation-play-state: paused;
+        }
+    </style>
+</head>
+<body class="font-inter">
+
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8"> 
+
+        <header class="text-center py-12 md:py-16">
+            <!-- NEW: Using font-cursive-header and new text colors -->
+            <h1 class="font-cursive-header text-7xl md:text-8xl text-rose-900 mb-4 scroll-reveal is-visible">
+                A Little Canvas for Vedika
+            </h1>
+            <p class="text-xl md:text-2xl text-rose-700 font-medium mb-6 scroll-reveal is-visible" style="transition-delay: 0.2s;">
+                Just a little space I made to (shamelessly) show my admiration.
+            </p>
+            <p class="text-3xl md:text-4xl text-rose-800 font-medium scroll-reveal is-visible" style="transition-delay: 0.4s;">
+                Hey there! So glad you're here.
+            </p>
+        </header>
+
+        <main class="grid grid-cols-1 gap-10 md:gap-12 py-12"> 
+
+            <!-- Card 1: Photo 1 -->
+            <div class="canvas-item p-4 scroll-reveal-left">
+                <img src="/2.jpg" 
+                     alt="A photo of Vedika" 
+                     class="w-full h-auto rounded-md object-cover shadow-md">
+                <p class="text-center mt-4 text-slate-700 italic text-lg">
+                    "This smile... honestly, it's my favorite. ✨"
+                </p>
+            </div>
+
+            <!-- Card 2: The Ask -->
+            <div class="canvas-item p-6 flex flex-col justify-center scroll-reveal-right border-4 border-rose-100">
+                <!-- NEW: Using font-cursive-header and new text colors -->
+                <h2 class="font-cursive-header text-5xl font-semibold text-slate-800 mb-4">So, here's the thing...</h2>
+                <p class="text-lg mb-4 text-slate-700">
+                    I think you're pretty amazing. In fact, I'll be honest... I've probably refreshed our chat more times than I can count, just hoping to talk more.
+                </p>
+                <p class="text-lg font-medium text-slate-900">
+                    I'd love to *actually* get to know you better. <span class="underline-on-hover">If you feel the same, even a 'hi' back in our chat would make my year.</span> 😄 No pressure, honestly.
+                </p>
+            </div>
+            
+            <!-- Card 3: Photo 2 -->
+            <div class="canvas-item p-4 scroll-reveal-left">
+                <img src="/1.jpg" 
+                     alt="Another photo of Vedika" 
+                     class="w-full h-auto rounded-md object-cover shadow-md">
+                <p class="text-center mt-4 text-slate-700 italic text-lg">
+                    "Okay, just... wow. This has that 'spark' I was talking about. 😏"
+                </p>
+            </div>
+            
+            <!-- Card 4: No Regrets -->
+            <div class="canvas-item p-6 flex flex-col justify-center items-center text-center scroll-reveal-right border-4 border-rose-50">
+                <!-- NEW: Using font-cursive-header and new text colors -->
+                <h2 class="font-cursive-header text-5xl font-semibold text-slate-800 mb-4">Honestly...</h2>
+                <p class="text-xl text-slate-700 font-medium">
+                    "I made this because I was more afraid of the regret of *not* telling you how I feel... so, here I am. 🙈"
+                </p>
+            </div>
+
+            <!-- Card 5: Photo 3 -->
+            <div class="canvas-item p-4 scroll-reveal-left">
+                <img src="/3.jpg" 
+                     alt="Another photo of Vedika" 
+                     class="w-full h-auto rounded-md object-cover shadow-md">
+                <p class="text-center mt-4 text-slate-700 italic text-lg">
+                    "Not gonna lie, I've looked at this one more than once. 😊"
+                </p>
+            </div>
+
+            <!-- Card 6: Thought Bubble -->
+            <div class="canvas-item p-6 flex flex-col items-center text-center scroll-reveal-right border-4 border-pink-100">
+                <!-- NEW: Using font-cursive-header and new text colors -->
+                <h2 class="font-cursive-header text-5xl font-semibold text-rose-800 mb-4">P.S. Just a random thought...</h2>
+                <svg id="thoughtBubbleIcon" class="thought-bubble-icon w-20 h-20 text-pink-500 mb-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.76-1.39A6.459 6.459 0 005 15a5.88 5.88 0 01-1.343-.279A3 3 0 013 12.292V8a6 6 0 016-6h1c4.418 0 8 3.134 8 7zM7.002 11.5c.383 0 .734.195.94.508l.94 1.408a1 1 0 001.697 0l.94-1.408c.206-.313.557-.508.94-.508a.5.5 0 01.488.647l-.94 1.408c-.206.313-.557.508-.94.508s-.734-.195-.94-.508l-.94-1.408a.5.5 0 01-.488-.647zM7 9a1 1 0 100-2 1 1 0 000 2zm6-2a1 1 0 100 2 1 1 0 000-2z" clip-rule="evenodd"></path>
+                </svg>
+                <p id="thoughtBubbleText" class="text-lg text-slate-700 italic h-10">Click the thought bubble!</p>
+            </div>
+            
+        </main>
+
+        <footer class="text-center py-12 mt-12 border-t border-rose-200/50 scroll-reveal">
+            <p class="text-slate-600 italic text-lg mb-2">
+                "Thanks for stopping by. Hope this made you smile! 😁"
+            </p>
+            <p class="font-parisienne text-4xl text-rose-800">
+                harshad
+            </p>
+        </footer>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Random Thought Bubble ---
+            const thoughts = [
+                "I secretly hope you liked this little page. 😊",
+                "Did I mention your smile is awesome? Just saying.",
+                "If you're reading this, it means a lot.",
+                "I wonder what kind of adventures you're dreaming of today.",
+                "Coffee, chai, or a trek? What's your next adventure?",
+                "This whole thing felt like a good idea at 3 AM. Still does!",
+                "I hope this isn't too cheesy. Maybe just the right amount? 😉"
+            ];
+
+            const thoughtBubbleIcon = document.getElementById('thoughtBubbleIcon');
+            const thoughtBubbleText = document.getElementById('thoughtBubbleText');
+            let lastThoughtIndex = -1;
+
+            thoughtBubbleIcon.addEventListener('click', () => {
+                let randomIndex;
+                do {
+                    randomIndex = Math.floor(Math.random() * thoughts.length);
+                } while (randomIndex === lastThoughtIndex);
+                lastThoughtIndex = randomIndex;
+                thoughtBubbleText.textContent = `"${thoughts[randomIndex]}"`;
+            });
+
+            // --- Scroll-Reveal Animation Logic ---
+            const revealElements = document.querySelectorAll('.scroll-reveal, .scroll-reveal-left, .scroll-reveal-right');
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    }
+                });
+            }, {
+                threshold: 0.1 
+            });
+
+            revealElements.forEach(el => {
+                observer.observe(el);
+            });
+        });
+    </script>
+
+</body>
+</html>
