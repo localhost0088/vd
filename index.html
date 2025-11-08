@@ -3,27 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>Well! u should reply him he's waiting</h2>
+</body>
+</html>
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>A Little Canvas for Vedika</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <!-- NEW: Replaced Caveat with Dancing Script for a more elegant cursive -->
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Inter:wght@400;500;700&family=Parisienne&display=swap" rel="stylesheet">
     
     <style>
-        /* NEW: Updated font class */
         .font-cursive-header { font-family: 'Dancing Script', cursive; }
         .font-inter { font-family: 'Inter', sans-serif; }
         .font-parisienne { font-family: 'Parisienne', cursive; }
 
-        /* Animated Gradient Background */
         @keyframes gradient-animation {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
         }
 
-        /* Subtle Noise/Static Texture (Kept) */
         body::before {
             content: "";
             position: fixed;
@@ -35,7 +42,6 @@
             background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1MDAiIGhlaWdodD0iNTAwIj4NCiAgICA8ZmlsdGVyIGlkPSJub2lzZSI+DQogICAgICAgIDxmZVR1cmJ1bGVuY2UgdHlwZT0iZnJhY3RhbE5vaXNlIiBiYXNlRnJlcXVlbmN5PSIwLjciIG51bU9jdGF2ZXM9IjUiIHN0aXRjaFRpbGVzPSJzdGl0Y2giLz4NCiAgICA8L2ZpbHRlcj4NCiAgICA8cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWx0ZXI9InVybCgjbm9pc2UpIi8+DQo8L3N2Zz4=');
         }
 
-        /* NEW: "Proper" Color Palette - soft, romantic pinks and ivory */
         body {
             background: linear-gradient(-45deg, #fff1f2, #fdf2f8, #fce7f3, #fbe2e3);
             background-size: 400% 400%;
@@ -44,10 +50,9 @@
             overflow-x: hidden;
             padding: 1rem;
             font-family: 'Inter', sans-serif;
-            color: #334155; /* Slate-700 */
+            color: #334155; 
         }
         
-        /* Scroll-Reveal Animations (Kept) */
         .scroll-reveal {
             opacity: 0;
             transform: translateY(30px);
@@ -76,27 +81,23 @@
             transform: translateX(0);
         }
         
-        /* NEW: Enhanced "Glass" Effect */
         .canvas-item {
-            background-color: rgba(255, 255, 255, 0.65); /* More transparent */
-            backdrop-filter: blur(20px); /* Glassier */
-            border: 1px solid rgba(255, 255, 255, 0.75); /* Brighter edge */
+            background-color: rgba(255, 255, 255, 0.65); 
+            backdrop-filter: blur(20px); 
+            border: 1px solid rgba(255, 255, 255, 0.75); 
             border-radius: 0.75rem;
             box-shadow: 0 15px 30px rgba(0,0,0,0.08);
             transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
             overflow: hidden; 
         }
 
-        /* NEW: Enhanced "Hover" Effect with Pink Glow */
         .canvas-item:hover {
             transform: scale(1.03) !important;
-            /* Softer shadow + more prominent pink glow */
             box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.1), 0 0 30px 5px rgba(252, 165, 165, 0.5);
             z-index: 10;
-            border-color: rgba(255, 255, 255, 1.0); /* Crisp white edge on hover */
+            border-color: rgba(255, 255, 255, 1.0); 
         }
         
-        /* Image Zoom on Hover (Kept) */
         .canvas-item img {
             transition: transform 0.4s ease-out;
         }
@@ -126,7 +127,6 @@
             transform-origin: bottom left;
         }
 
-        /* Pulsing Icon Animation (Kept) */
         @keyframes pulse {
             0%, 100% { transform: scale(1); opacity: 0.8; }
             50% { transform: scale(1.1); opacity: 1; }
@@ -147,7 +147,6 @@
     <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8"> 
 
         <header class="text-center py-12 md:py-16">
-            <!-- NEW: Using font-cursive-header and new text colors -->
             <h1 class="font-cursive-header text-7xl md:text-8xl text-rose-900 mb-4 scroll-reveal is-visible">
                 A Little Canvas for Vedika
             </h1>
@@ -161,7 +160,6 @@
 
         <main class="grid grid-cols-1 gap-10 md:gap-12 py-12"> 
 
-            <!-- Card 1: Photo 1 -->
             <div class="canvas-item p-4 scroll-reveal-left">
                 <img src="2.jpg" 
                      alt="A photo of Vedika" 
@@ -171,9 +169,7 @@
                 </p>
             </div>
 
-            <!-- Card 2: The Ask -->
             <div class="canvas-item p-6 flex flex-col justify-center scroll-reveal-right border-4 border-rose-100">
-                <!-- NEW: Using font-cursive-header and new text colors -->
                 <h2 class="font-cursive-header text-5xl font-semibold text-slate-800 mb-4">So, here's the thing...</h2>
                 <p class="text-lg mb-4 text-slate-700">
                     I think you're pretty amazing. In fact, I'll be honest... I've probably refreshed our chat more times than I can count, just hoping to talk more.
@@ -183,7 +179,6 @@
                 </p>
             </div>
             
-            <!-- Card 3: Photo 2 -->
             <div class="canvas-item p-4 scroll-reveal-left">
                 <img src="1.jpg" 
                      alt="Another photo of Vedika" 
@@ -193,16 +188,13 @@
                 </p>
             </div>
             
-            <!-- Card 4: No Regrets -->
             <div class="canvas-item p-6 flex flex-col justify-center items-center text-center scroll-reveal-right border-4 border-rose-50">
-                <!-- NEW: Using font-cursive-header and new text colors -->
                 <h2 class="font-cursive-header text-5xl font-semibold text-slate-800 mb-4">Honestly...</h2>
                 <p class="text-xl text-slate-700 font-medium">
                     "I made this because I was more afraid of the regret of *not* telling you how I feel... so, here I am. 🙈"
                 </p>
             </div>
 
-            <!-- Card 5: Photo 3 -->
             <div class="canvas-item p-4 scroll-reveal-left">
                 <img src="3.jpg" 
                      alt="Another photo of Vedika" 
@@ -212,9 +204,7 @@
                 </p>
             </div>
 
-            <!-- Card 6: Thought Bubble -->
             <div class="canvas-item p-6 flex flex-col items-center text-center scroll-reveal-right border-4 border-pink-100">
-                <!-- NEW: Using font-cursive-header and new text colors -->
                 <h2 class="font-cursive-header text-5xl font-semibold text-rose-800 mb-4">P.S. Just a random thought...</h2>
                 <svg id="thoughtBubbleIcon" class="thought-bubble-icon w-20 h-20 text-pink-500 mb-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                     <path fill-rule="evenodd" d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.76-1.39A6.459 6.459 0 005 15a5.88 5.88 0 01-1.343-.279A3 3 0 013 12.292V8a6 6 0 016-6h1c4.418 0 8 3.134 8 7zM7.002 11.5c.383 0 .734.195.94.508l.94 1.408a1 1 0 001.697 0l.94-1.408c.206-.313.557-.508.94-.508a.5.5 0 01.488.647l-.94 1.408c-.206.313-.557.508-.94.508s-.734-.195-.94-.508l-.94-1.408a.5.5 0 01-.488-.647zM7 9a1 1 0 100-2 1 1 0 000 2zm6-2a1 1 0 100 2 1 1 0 000-2z" clip-rule="evenodd"></path>
@@ -237,7 +227,6 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // --- Random Thought Bubble ---
             const thoughts = [
                 "I secretly hope you liked this little page. 😊",
                 "Did I mention your smile is awesome? Just saying.",
@@ -261,7 +250,6 @@
                 thoughtBubbleText.textContent = `"${thoughts[randomIndex]}"`;
             });
 
-            // --- Scroll-Reveal Animation Logic ---
             const revealElements = document.querySelectorAll('.scroll-reveal, .scroll-reveal-left, .scroll-reveal-right');
 
             const observer = new IntersectionObserver((entries) => {
@@ -282,4 +270,4 @@
 
 </body>
 
-</html>
+</html> -->
